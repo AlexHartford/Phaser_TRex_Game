@@ -5,9 +5,11 @@ class TRexGame extends Phaser.Scene {
   constructor() {
     super("TRexGame");
   }
+
   preload() {
     this.load.image("logo", logoImg);
   }
+
   create() {
     const logo = this.add.image(400, 150, "logo");
 
@@ -19,6 +21,10 @@ class TRexGame extends Phaser.Scene {
       yoyo: true,
       loop: -1
     });
+  }
+
+  update() {
+    
   }
 }
 

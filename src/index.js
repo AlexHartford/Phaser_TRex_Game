@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App.jsx";
-import TRexGame from "./phaser/scene";
+import TRexGame from "./phaser/game";
 
 //console.log(App);
 
@@ -14,7 +14,7 @@ export const config = {
   scene: TRexGame
 };
 
-const game = new Phaser.Game(config);
+new Phaser.Game(config);
 
 ReactDOM.render(
   <App />,
