@@ -4,11 +4,16 @@ import ReactDOM from "react-dom";
 import App from "./components/App.jsx";
 import TRexGame from "./phaser/game";
 
-//console.log(App);
-
 export const config = {
   type: Phaser.AUTO,
   parent: "phaser",
+  physics: {
+    default: 'arcade',
+    arcade: {
+        gravity: { y: 550 },
+        debug: false
+    }
+  },
   width: 800,
   height: 600,
   scene: TRexGame
