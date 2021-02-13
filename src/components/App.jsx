@@ -4,7 +4,7 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<div style={{ textAlign: "center" }}>
-				<h1>T-Rex Game</h1>
+				<h1>Leo's Amazing Games</h1>
 			</div>
 		);
 	}
