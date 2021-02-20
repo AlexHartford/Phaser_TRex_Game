@@ -27,15 +27,16 @@ class ConnectFour extends Phaser.Scene {
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
             [0, 0, 0, 0, 0, 0, 0]
         ];
 
-        this.turn = 1;
+        this.player = 1;
 
-        this.add.text(50, 50, 'Player: ' + this.turn);
+        this.add.text(50, 50, 'Player: ' + this.player);
 
         for (let i = 0; i < this.board.length; i++) {
-            this.btn = new Button(this, 100 + i * 100, 100, i.toString(), { fill: '#0f0 ' }, () => this.movePiece(i));
+            this.btn = new Button(this, 100 + i * 100, 100, i.toString(), { fill: '#0f0' }, () => this.movePiece(i));
             this.add.existing(this.btn);
 
             for (let j = 0; j < this.board[i].length; j++) {
@@ -47,9 +48,14 @@ class ConnectFour extends Phaser.Scene {
     movePiece(col) {
         this.add.displayList.removeAll();
 
-        this.board[col][this.getBottomPosition(col)] = this.turn;
-        console.table(this.board);
+        this.board[col][this.getBottomPosition(col)] = this.player;
         
+        if (this.checkWin()) {
+            this.resetBoard();
+        }
+
+        console.table(this.board);
+
         for (let i = 0; i < this.board.length; i++) {
             this.btn = new Button(this, 100 + i * 100, 100, i.toString(), { fill: '#0f0 ' }, () => this.movePiece(i));
             this.add.existing(this.btn);
@@ -59,8 +65,8 @@ class ConnectFour extends Phaser.Scene {
             }
         }
 
-        this.rotatePlayerTurn();
-        this.add.text(50, 50, 'Player: ' + this.turn);
+        this.rotatePlayerplayer();
+        this.add.text(50, 50, 'Player: ' + this.player);
     }
 
     // Look at a column, determine where the piece should fall
@@ -68,16 +74,82 @@ class ConnectFour extends Phaser.Scene {
         return this.board[col].lastIndexOf(0);
     }
 
-    rotatePlayerTurn() {
-        this.turn = this.turn == 1 ? 2 : 1;
+    rotatePlayerplayer() {
+        this.player = this.player == 1 ? 2 : 1;
     }
 
     checkWin() {
-        for (let i = 0; i < this.board.length; i++) {
-            for (let j = 0; j < this.board[i].length; j++) {
-                
+
+        // The length of the outer (i) array -> 7
+        const width = this.board.length;
+        // The length of the inner (j) array -> 7
+        const height = this.board[0].length;
+
+        // Check the vertical direction
+        for (let i = 0; i < width; i++) {
+            for (let j = 0; j < height - 3; j++) {
+                if (this.board[i][j] == this.player && 
+                    this.board[i][j + 1] == this.player && 
+                    this.board[i][j + 2] == this.player && 
+                    this.board[i][j + 3] == this.player) {
+                        alert('Player ' + this.player + ' won vertically!');
+                        return true;
+                }
             }
         }
+
+        // Check the horizontal direction
+        for (let j = 0; j < height; j++) {
+            for (let i = 0; i < width - 3; i++) {
+                if (this.board[i][j] == this.player && 
+                    this.board[i + 1][j] == this.player && 
+                    this.board[i + 2][j] == this.player && 
+                    this.board[i + 3][j] == this.player) {
+                        alert('Player ' + this.player + ' won horizontally!');
+                        return true;
+                }
+            }
+        }
+
+        // Check the upward diagonal direction
+        for (let i = 3; i < width; i++) {
+            for (let j = 0; j < height - 3; j++) {
+                if (this.board[i][j] == this.player && 
+                    this.board[i - 1][j + 1] == this.player && 
+                    this.board[i - 2][j + 2] == this.player && 
+                    this.board[i - 3][j + 3] == this.player) {
+                        alert('Player ' + this.player + ' won diagonally!');
+                        return true;
+                }
+            }
+        }
+
+        // Check the downward diagonal direction
+        for (let i = 3; i < width; i++) {
+            for (let j = 3; j < height; j++) {
+                if (this.board[i][j] == this.player && 
+                    this.board[i - 1][j - 1] == this.player && 
+                    this.board[i - 2][j - 2] == this.player && 
+                    this.board[i - 3][j - 3] == this.player) {
+                        alert('Player ' + this.player + ' won diagonally!');
+                        return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    resetBoard() {
+        this.board = [
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0]
+        ];
     }
 
     update() {
